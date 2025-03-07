@@ -1,0 +1,13 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wand -->
+  <rect x="45" y="20" width="10" height="60" rx="5" fill="#6366f1" transform="rotate(45, 50, 50)"/>
+  
+  <!-- Feather -->
+  <path d="M30 30 Q 50 10, 70 30 Q 60 40, 50 35 Q 40 40, 30 30" fill="#818cf8" stroke="#4f46e5" stroke-width="1.5"/>
+  <path d="M35 35 Q 50 20, 65 35 Q 57 42, 50 38 Q 43 42, 35 35" fill="#a5b4fc" stroke="#4f46e5" stroke-width="1"/>
+  
+  <!-- Sparkles -->
+  <circle cx="70" cy="30" r="3" fill="#f0f4f8"/>
+  <circle cx="75" cy="25" r="2" fill="#f0f4f8"/>
+  <circle cx="65" cy="25" r="1.5" fill="#f0f4f8"/>
+</svg>
