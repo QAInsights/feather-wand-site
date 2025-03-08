@@ -1,10 +1,14 @@
+/* Import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap");
+
 /* Global Variables */
 :root {
   /* Light mode colors */
-  --primary-color: #6366f1;
-  --primary-hover: #4f46e5;
+  --primary-color: #4401fc;
+  --primary-hover: #6366f1;
   --secondary-color: #f0f4f8;
-  --text-color: #1e293b;
+  --text-color: #191b1e;
   --text-light: #64748b;
   --background-color: #ffffff;
   --card-background: #f8fafc;
@@ -18,12 +22,16 @@
   --transition-speed: 0.3s;
   --max-width: 1200px;
   --header-height: 70px;
+
+  /* Font variables */
+  --font-body: "Space Grotesk", sans-serif;
+  --font-heading: "Orbitron", sans-serif;
 }
 
 /* Dark mode colors */
 .dark-mode {
-  --primary-color: #818cf8;
-  --primary-hover: #6366f1;
+  --primary-color: #4401fc;
+  --primary-hover: #a5b4fc;
   --secondary-color: #1e293b;
   --text-color: #f1f5f9;
   --text-light: #94a3b8;
@@ -31,6 +39,38 @@
   --card-background: #1e293b;
   --border-color: #334155;
   --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode specific link styles */
+.dark-mode a:hover {
+  color: #d4d4ff; /* Lighter purple for better visibility */
+}
+
+.dark-mode .nav-links a:hover {
+  color: #d4d4ff; /* Lighter purple for better visibility */
+}
+
+.dark-mode .footer-column a:hover {
+  color: #d4d4ff; /* Lighter purple for better visibility */
+}
+
+.dark-mode .social-links a:hover {
+  color: #d4d4ff; /* Lighter purple for better visibility */
+}
+
+/* Dark mode CTA button styles */
+.dark-mode .cta-primary:hover,
+.dark-mode .cta-button:hover {
+  background-color: #d4d4ff; /* Lighter purple for better visibility */
+  color: #0f172a; /* Dark background color for contrast */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 180, 252, 0.5);
+}
+
+.dark-mode .cta-secondary:hover {
+  background-color: #334155; /* Lighter background in dark mode */
+  color: #ffffff; /* White text for contrast */
+  transform: translateY(-2px);
 }
 
 /* Reset and Base Styles */
@@ -45,12 +85,13 @@ html {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-body);
   line-height: 1.6;
   color: var(--text-color);
   background-color: var(--background-color);
   transition: background-color var(--transition-speed),
     color var(--transition-speed);
+  letter-spacing: 0.02em;
 }
 
 a {
@@ -80,8 +121,10 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: var(--font-heading);
   margin-bottom: 1rem;
   line-height: 1.2;
+  letter-spacing: 0.04em;
 }
 
 h1 {
@@ -128,6 +171,8 @@ nav {
   align-items: center;
   font-weight: 700;
   font-size: 1.5rem;
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
 }
 
 .logo img {
@@ -203,29 +248,35 @@ nav {
 }
 
 .tagline {
+  font-family: var(--font-heading);
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  letter-spacing: 0.05em;
+}
+
+.tagline-row {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  white-space: nowrap;
+  margin-bottom: 0.5rem;
 }
 
 .typing-container {
   display: inline-flex;
-  min-width: 140px;
   position: relative;
   align-items: center;
   justify-content: flex-start;
-  margin: 0 0.25rem;
+  margin: 0 0 0 0.5rem;
 }
 
 #typing-text {
   color: var(--primary-color);
   display: inline-block;
   text-align: left;
-  min-width: 110px;
 }
 
 .cursor {
@@ -340,6 +391,7 @@ nav {
   font-size: 2rem;
   color: var(--primary-color);
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 /* Screenshots Section */
@@ -662,17 +714,22 @@ nav {
 .pricing-features {
   list-style: none;
   margin-bottom: 2rem;
+  text-align: left;
+  padding-left: 25rem;
+  padding-right: 1rem;
 }
 
 .pricing-features li {
   margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .pricing-features li i {
   margin-right: 0.5rem;
   color: var(--success-color);
+  min-width: 16px;
 }
 
 .pricing-features li.disabled {
@@ -709,6 +766,7 @@ nav {
 .faq-item {
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .faq-question {
@@ -716,24 +774,32 @@ nav {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  padding: 0.5rem 0;
 }
 
 .faq-question h3 {
   margin-bottom: 0;
+  flex: 1;
 }
 
 .faq-toggle {
   font-size: 1.25rem;
-  transition: transform var(--transition-speed);
+  transition: all var(--transition-speed);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .faq-item.active .faq-toggle {
-  transform: rotate(45deg);
+  color: var(--primary-color);
 }
 
 .faq-answer {
   margin-top: 1rem;
   display: none;
+  padding: 0 0.5rem;
 }
 
 .faq-item.active .faq-answer {
@@ -879,11 +945,22 @@ footer {
   }
 
   h2 {
-    font-size: 1.75rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
   }
 
   .tagline {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .tagline-row {
+    justify-content: center;
+  }
+
+  .typing-container {
+    margin: 0 0 0 0.5rem;
   }
 
   .nav-links {

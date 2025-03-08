@@ -29,12 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Typing Effect for Tagline
   const words = ["Cursor", "Windsurf", "Copilot", "Assistant"];
   const typingText = document.getElementById("typing-text");
-  const wordWidths = {
-    Cursor: "85px",
-    Windsurf: "110px",
-    Copilot: "95px",
-    Assistant: "120px",
-  };
   let wordIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
@@ -42,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function typeEffect() {
     const currentWord = words[wordIndex];
-    typingText.style.minWidth = wordWidths[currentWord];
 
     if (isDeleting) {
       // Remove a character
@@ -83,160 +76,201 @@ document.addEventListener("DOMContentLoaded", () => {
   // Start the typing effect
   setTimeout(typeEffect, 1000); // Start after 1s
 
-  // Screenshot Carousel
+  // Screenshot Carousel - Only initialize if elements exist
   const carousel = document.querySelector(".screenshot-carousel");
-  const screenshots = document.querySelectorAll(".screenshot");
-  const indicators = document.querySelectorAll(".indicator");
-  const prevBtn = document.getElementById("prev-screenshot");
-  const nextBtn = document.getElementById("next-screenshot");
-  let currentIndex = 0;
-  let isTransitioning = false;
-  let autoplayInterval;
+  if (carousel) {
+    const screenshots = document.querySelectorAll(".screenshot");
+    const indicators = document.querySelectorAll(".indicator");
+    const prevBtn = document.getElementById("prev-screenshot");
+    const nextBtn = document.getElementById("next-screenshot");
+    let currentIndex = 0;
+    let isTransitioning = false;
+    let autoplayInterval;
 
-  function updateCarousel(direction = "next") {
-    if (isTransitioning) return;
-    isTransitioning = true;
+    function updateCarousel(direction = "next") {
+      if (isTransitioning) return;
+      isTransitioning = true;
 
-    const currentSlide = screenshots[currentIndex];
-    let nextIndex;
+      const currentSlide = screenshots[currentIndex];
+      let nextIndex;
 
-    if (direction === "next") {
-      nextIndex = (currentIndex + 1) % screenshots.length;
-    } else {
-      nextIndex = (currentIndex - 1 + screenshots.length) % screenshots.length;
-    }
-
-    const nextSlide = screenshots[nextIndex];
-
-    // Update slide visibility and ARIA states
-    currentSlide.classList.remove("active");
-    currentSlide.setAttribute("aria-hidden", "true");
-    nextSlide.classList.add("active");
-    nextSlide.setAttribute("aria-hidden", "false");
-
-    // Update current index
-    currentIndex = nextIndex;
-
-    // Update indicators and their ARIA states
-    indicators.forEach((indicator, index) => {
-      if (index === currentIndex) {
-        indicator.classList.add("active");
-        indicator.setAttribute("aria-selected", "true");
-        indicator.setAttribute("tabindex", "0");
+      if (direction === "next") {
+        nextIndex = (currentIndex + 1) % screenshots.length;
       } else {
-        indicator.classList.remove("active");
-        indicator.setAttribute("aria-selected", "false");
-        indicator.setAttribute("tabindex", "-1");
+        nextIndex =
+          (currentIndex - 1 + screenshots.length) % screenshots.length;
       }
-    });
 
-    // Reset transition lock after animation
-    setTimeout(() => {
-      isTransitioning = false;
-    }, 500);
+      const nextSlide = screenshots[nextIndex];
 
-    // Reset autoplay timer
-    resetAutoplay();
-  }
+      // Update slide visibility and ARIA states
+      currentSlide.classList.remove("active");
+      currentSlide.setAttribute("aria-hidden", "true");
+      nextSlide.classList.add("active");
+      nextSlide.setAttribute("aria-hidden", "false");
 
-  function resetAutoplay() {
-    clearInterval(autoplayInterval);
-    autoplayInterval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % screenshots.length;
-      updateCarousel("next");
-    }, 5000);
-  }
+      // Update current index
+      currentIndex = nextIndex;
 
-  // Event listeners for carousel controls
-  prevBtn.addEventListener("click", () => {
-    if (isTransitioning) return;
-    currentIndex = (currentIndex - 1 + screenshots.length) % screenshots.length;
-    updateCarousel("prev");
-  });
+      // Update indicators and their ARIA states
+      indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+          indicator.classList.add("active");
+          indicator.setAttribute("aria-selected", "true");
+          indicator.setAttribute("tabindex", "0");
+        } else {
+          indicator.classList.remove("active");
+          indicator.setAttribute("aria-selected", "false");
+          indicator.setAttribute("tabindex", "-1");
+        }
+      });
 
-  nextBtn.addEventListener("click", () => {
-    if (isTransitioning) return;
-    currentIndex = (currentIndex + 1) % screenshots.length;
-    updateCarousel("next");
-  });
+      // Reset transition lock after animation
+      setTimeout(() => {
+        isTransitioning = false;
+      }, 500);
 
-  // Allow clicking on indicators
-  indicators.forEach((indicator, index) => {
-    indicator.addEventListener("click", () => {
-      if (isTransitioning || currentIndex === index) return;
-      currentIndex = index;
-      updateCarousel();
-    });
-  });
-
-  // Initialize carousel
-  screenshots.forEach((slide, index) => {
-    if (index === currentIndex) {
-      slide.classList.add("active");
-      slide.setAttribute("aria-hidden", "false");
-    } else {
-      slide.setAttribute("aria-hidden", "true");
+      // Reset autoplay timer
+      resetAutoplay();
     }
-  });
 
-  indicators.forEach((indicator, index) => {
-    if (index === currentIndex) {
-      indicator.classList.add("active");
-      indicator.setAttribute("aria-selected", "true");
-      indicator.setAttribute("tabindex", "0");
-    } else {
-      indicator.setAttribute("aria-selected", "false");
-      indicator.setAttribute("tabindex", "-1");
+    function resetAutoplay() {
+      clearInterval(autoplayInterval);
+      autoplayInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % screenshots.length;
+        updateCarousel("next");
+      }, 5000);
     }
-  });
 
-  // Add keyboard navigation
-  carousel.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      if (!isTransitioning) {
+    // Event listeners for carousel controls
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener("click", () => {
+        if (isTransitioning) return;
         currentIndex =
           (currentIndex - 1 + screenshots.length) % screenshots.length;
         updateCarousel("prev");
-      }
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      if (!isTransitioning) {
+      });
+
+      nextBtn.addEventListener("click", () => {
+        if (isTransitioning) return;
         currentIndex = (currentIndex + 1) % screenshots.length;
         updateCarousel("next");
-      }
+      });
     }
-  });
 
-  resetAutoplay();
+    // Allow clicking on indicators
+    if (indicators.length > 0) {
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener("click", () => {
+          if (isTransitioning || currentIndex === index) return;
+          currentIndex = index;
+          updateCarousel();
+        });
+      });
+    }
 
-  // Pause autoplay on hover
-  carousel.addEventListener("mouseenter", () => {
-    clearInterval(autoplayInterval);
-  });
+    // Initialize carousel
+    if (screenshots.length > 0) {
+      screenshots.forEach((slide, index) => {
+        if (index === currentIndex) {
+          slide.classList.add("active");
+          slide.setAttribute("aria-hidden", "false");
+        } else {
+          slide.setAttribute("aria-hidden", "true");
+        }
+      });
+    }
 
-  carousel.addEventListener("mouseleave", () => {
+    if (indicators.length > 0) {
+      indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+          indicator.classList.add("active");
+          indicator.setAttribute("aria-selected", "true");
+          indicator.setAttribute("tabindex", "0");
+        } else {
+          indicator.setAttribute("aria-selected", "false");
+          indicator.setAttribute("tabindex", "-1");
+        }
+      });
+    }
+
+    // Add keyboard navigation
+    carousel.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        if (!isTransitioning) {
+          currentIndex =
+            (currentIndex - 1 + screenshots.length) % screenshots.length;
+          updateCarousel("prev");
+        }
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (!isTransitioning) {
+          currentIndex = (currentIndex + 1) % screenshots.length;
+          updateCarousel("next");
+        }
+      }
+    });
+
     resetAutoplay();
-  });
+
+    // Pause autoplay on hover
+    carousel.addEventListener("mouseenter", () => {
+      clearInterval(autoplayInterval);
+    });
+
+    carousel.addEventListener("mouseleave", () => {
+      resetAutoplay();
+    });
+  }
 
   // FAQ Accordion
   const faqItems = document.querySelectorAll(".faq-item");
 
-  faqItems.forEach((item) => {
-    const question = item.querySelector(".faq-question");
+  if (faqItems.length > 0) {
+    faqItems.forEach((item) => {
+      const question = item.querySelector(".faq-question");
+      const toggle = item.querySelector(".faq-toggle");
 
-    question.addEventListener("click", () => {
-      // Toggle active class on clicked item
-      item.classList.toggle("active");
+      if (question && toggle) {
+        // Add event listeners to both the question and toggle elements
+        [question, toggle].forEach((element) => {
+          element.addEventListener("click", (e) => {
+            // Prevent event from bubbling up
+            e.stopPropagation();
 
-      // Close other items (optional, for accordion effect)
-      faqItems.forEach((otherItem) => {
-        if (otherItem !== item) {
-          otherItem.classList.remove("active");
-        }
-      });
+            // Toggle active class on clicked item
+            item.classList.toggle("active");
+
+            // Update the icon
+            const icon = item.querySelector(".faq-toggle i");
+            if (icon) {
+              if (item.classList.contains("active")) {
+                icon.classList.remove("fa-plus");
+                icon.classList.add("fa-minus");
+              } else {
+                icon.classList.remove("fa-minus");
+                icon.classList.add("fa-plus");
+              }
+            }
+
+            // Close other items (optional, for accordion effect)
+            faqItems.forEach((otherItem) => {
+              if (otherItem !== item) {
+                otherItem.classList.remove("active");
+                // Reset other icons
+                const otherIcon = otherItem.querySelector(".faq-toggle i");
+                if (otherIcon) {
+                  otherIcon.classList.remove("fa-minus");
+                  otherIcon.classList.add("fa-plus");
+                }
+              }
+            });
+          });
+        });
+      }
     });
-  });
+  }
 
   // Smooth scrolling for navigation links
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -288,26 +322,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Create placeholder images directory
   console.log("Feather Wand landing page loaded successfully!");
-});
 
-// FAQ Toggle Functionality
-const faqItems = document.querySelectorAll(".faq-item");
-
-faqItems.forEach((item) => {
-  const question = item.querySelector(".faq-question");
-
-  question.addEventListener("click", () => {
-    // Toggle active class on the clicked item
-    item.classList.toggle("active");
-
-    // Update the icon
-    const icon = item.querySelector(".faq-toggle i");
-    if (item.classList.contains("active")) {
-      icon.classList.remove("fa-plus");
-      icon.classList.add("fa-minus");
-    } else {
-      icon.classList.remove("fa-minus");
-      icon.classList.add("fa-plus");
-    }
-  });
+  // Set current year in footer
+  document.getElementById("current-year").textContent =
+    new Date().getFullYear();
 });
