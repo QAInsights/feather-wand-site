@@ -927,8 +927,17 @@ footer {
   }
 
   .hero {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: 2rem;
     text-align: center;
+  }
+
+  .hero-left {
+    order: 1;
+  }
+
+  .hero-right {
+    order: 2;
   }
 
   .hero-description {
@@ -993,6 +1002,15 @@ footer {
     padding-left: 0;
     padding-right: 0;
   }
+
+  .hero-image {
+    padding: 1rem;
+  }
+
+  .hero-image img {
+    min-height: auto;
+    max-height: 400px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -1019,5 +1037,9 @@ footer {
   .pricing-features {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .hero-image img {
+    max-height: 300px;
   }
 }
