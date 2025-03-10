@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Typing Effect for Tagline
-  const words = ["Cursor", "Windsurf", "Copilot", "Assistant"];
+  const words = ["Cursor", "Windsurf", "Copilot"];
   const typingText = document.getElementById("typing-text");
   let wordIndex = 0;
   let charIndex = 0;
